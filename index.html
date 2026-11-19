@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>VOICE — Veteran's Oath Inquisition for Constitutional Empowerment</title>
+<style>
+body { font-family: system-ui, sans-serif; max-width: 800px; margin: 2rem auto; padding: 1rem; line-height: 1.5; }
+h1 { font-size: 1.8rem; }
+textarea, input, select { width: 100%; padding: 0.5rem; margin: 0.5rem 0; box-sizing: border-box; }
+button { padding: 0.7rem 1.5rem; font-size: 1rem; }
+#output { white-space: pre-wrap; background: #f4f4f4; padding: 1rem; margin-top: 1rem; border-radius: 4px; }
+</style>
+</head>
+<body>
+<h1>VOICE</h1>
+<p>Veteran's Oath Inquisition for Constitutional Empowerment</p>
+<p>Append-only log. Full provenance required. Motion is life.</p>
+
+<form id="append">
+<label>Declared name<br><input name="name" required></label>
+<label>Veteran status / self-declaration<br><input name="status" placeholder="e.g. USMC, oath active"></label>
+<label>Type<br><select name="type">
+<option value="status">Status update</option>
+<option value="refinement">Message refinement proposal</option>
+<option value="milestone">Milestone</option>
+<option value="action">Action report</option>
+<option value="other">Other</option>
+</select></label>
+<label>Content<br><textarea name="content" rows="8" required></textarea></label>
+<button type="submit">Generate append entry</button>
+</form>
+
+<div id="output"></div>
+
+<script>
+document.getElementById('append').onsubmit = function(e) {
+  e.preventDefault();
+  const form = new FormData(this);
+  const entry = {
+    id: 'voice-' + Date.now(),
+    timestamp: new Date().toISOString(),
+    type: form.get('type'),
+    actor: {
+      declared_name: form.get('name'),
+      self_declared: form.get('status') || '',
+      user_agent: navigator.userAgent
+    },
+    content: form.get('content'),
+    provenance: {
+      interface: 'VOICE web form',
+      note: 'User must commit this entry to the log/ directory in https://github.com/The-Interdependency/VOICE to make it canonical'
+    }
+  };
+  document.getElementById('output').textContent = JSON.stringify(entry, null, 2);
+};
+</script>
+<p>Repo: <a href="https://github.com/The-Interdependency/VOICE">github.com/The-Interdependency/VOICE</a></p>
+<p>The Interdependent Way: <a href="https://interdependentway.org">interdependentway.org</a></p>
+</body>
+</html>
